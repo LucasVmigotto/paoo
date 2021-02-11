@@ -1,6 +1,6 @@
-# poaa
+# paoo
 
-Projetos de Programação Avançada Orientada a Objetos utilizando [Angular](https://angular.io/)
+Projetos de Programação Orientada a Objetos Avançada utilizando [Angular](https://angular.io/)
 
 ## Desenvolvimento
 
@@ -8,8 +8,8 @@ Projetos de Programação Avançada Orientada a Objetos utilizando [Angular](htt
 
 2. Utilizar os serviços disponíveis
 
-    * **__poaa__**
+    * **__paoo__**
 
         ```bash
-        docker-compose run --rm --service-ports poaa bash
+        docker-compose run --rm --service-ports paoo bash
         ```

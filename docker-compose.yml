@@ -1,7 +1,7 @@
 version: '2'
 
 services:
-  poaa:
+  paoo:
     build:
       context: ./docker
       args:
