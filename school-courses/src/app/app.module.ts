@@ -2,19 +2,23 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { CourseComponent } from './components/course/course.component';
-import { CourseViewComponent } from './components/course-view/course-view.component';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { CourseFormComponent } from './course-form/course-form.component';
+import { CourseRowComponent } from './course-row/course-row.component';
+import { CourseListComponent } from './course-list/course-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CourseComponent,
-    CourseViewComponent
+    CourseFormComponent,
+    CourseRowComponent,
+    CourseListComponent
   ],
   imports: [
     BrowserModule,
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

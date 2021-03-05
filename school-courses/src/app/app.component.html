@@ -1,13 +1,4 @@
-<div class="school">
-  <h1 style="margin-top: 1em;">Cursos escolares disponíveis</h1>
-  <div class="highlight">
-    <course
-      [name]="courseHighlight.name"
-      [workload]="courseHighlight.workload"
-    ></course>
-  </div>
-  <div style="margin-top: 2em;">
-    <h3>Outros cursos...</h3>
-    <course-view [courses]="courses"></course-view>
-  </div>
+<div class="container">
+  <app-course-form (courseAdded)="onAddCourse($event)"></app-course-form>
+  <app-course-list [courses]="courses"></app-course-list>
 </div>
