@@ -1,0 +1,11 @@
+<div class="container">
+  <app-person-form (personAdded)="onAddPerson($event)"></app-person-form>
+  <div class="row">
+    <div
+      class="col-4"
+      *ngFor="let person of people"
+    >
+      <app-person-card [person]="person"></app-person-card>
+    </div>
+  </div>
+</div>
