@@ -1,0 +1,39 @@
+<mat-card>
+    <mat-form-field>
+        <input
+            id="title"
+            name="title"
+            type="text"
+            placeholder="The Man in the High Castle"
+            [(ngModel)]="book.title"
+            matInput
+        />
+    </mat-form-field>
+    <mat-form-field>
+        <input
+            id="author"
+            name="author"
+            type="text"
+            placeholder="Philip K Dick"
+            [(ngModel)]="book.author"
+            matInput
+        />
+    </mat-form-field>
+    <mat-form-field>
+        <input
+            id="pages"
+            name="pages"
+            type="text"
+            placeholder="237"
+            [(ngModel)]="book.pages"
+            matInput
+        />
+    </mat-form-field>
+    <button
+        color="primary"
+        mat-raised-button
+        (click)="addBook()"
+    >
+        Add Book
+    </button>
+</mat-card>
