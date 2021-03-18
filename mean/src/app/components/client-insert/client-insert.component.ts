@@ -4,7 +4,8 @@ import {
   EventEmitter,
   Output
 } from '@angular/core'
-import { Client } from '../../interfaces/Client'
+import { NgForm } from '@angular/forms'
+import { ClientService } from 'src/app/services/ClientService'
 
 @Component({
   selector: 'client-insert',
@@ -12,17 +13,21 @@ import { Client } from '../../interfaces/Client'
 })
 export class ClientInsertComponent implements OnInit {
 
-  client: Client
-
-  @Output() clientAdded = new EventEmitter<Client>()
-
-  constructor() { }
+  constructor(public clientService: ClientService) { }
 
   ngOnInit(): void {
   }
 
-  onAddClient () {
-    this.clientAdded.emit(this.client)
+  onAddClient (client: NgForm) {
+    if (client.form.invalid) {
+      return
+    }
+    this.clientService.addClient(
+      client.value.name,
+      client.value.email,
+      client.value.phone,
+    )
+    client.resetForm()
   }
 
 }

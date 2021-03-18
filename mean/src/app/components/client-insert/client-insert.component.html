@@ -1,39 +1,59 @@
 <mat-card>
-    <mat-form-field>
-        <input
-            id="name"
-            name="name"
-            type="text"
-            placeholder="John"
-            [(ngModel)]="client.name"
-            matInput
-        />
-    </mat-form-field>
-    <mat-form-field>
-        <input
-            id="phone"
-            name="phone"
-            type="text"
-            placeholder="9999-9999"
-            [(ngModel)]="client.phone"
-            matInput
-        />
-    </mat-form-field>
-    <mat-form-field>
-        <input
-            id="email"
-            name="email"
-            type="text"
-            placeholder="email@email.com"
-            [(ngModel)]="client.email"
-            matInput
-        />
-    </mat-form-field>
-    <button
-        color="primary"
-        mat-raised-button
-        (click)="onAddClient()"
+    <form
+        (submit)="onAddClient(clientForm)"
+        #clientForm="ngForm"
     >
-        Insert Client
-    </button>
+        <mat-form-field>
+            <input
+                id="name"
+                name="name"
+                type="text"
+                placeholder="John"
+                min="4"
+                required
+                matInput
+                ngModel
+                #name="ngModel"
+            />
+        </mat-form-field>
+        <mat-error *ngIf="name.invalid">
+            Insert a valid name
+        </mat-error>
+        <mat-form-field>
+            <input
+                id="phone"
+                name="phone"
+                type="text"
+                placeholder="9999-9999"
+                required
+                matInput
+                ngModel
+                #phone="ngModel"
+            />
+        </mat-form-field>
+        <mat-error *ngIf="phone.invalid">
+            Insert a valid phone number
+        </mat-error>
+        <mat-form-field>
+            <input
+                id="email"
+                name="email"
+                type="text"
+                placeholder="email@email.com"
+                required
+                matInput
+                ngModel
+                #email="ngModel"
+            />
+        </mat-form-field>
+        <mat-error *ngIf="email.invalid">
+            Insert a valid email address
+        </mat-error>
+        <button
+            color="primary"
+            mat-raised-button
+        >
+            Insert Client
+        </button>
+    </form>
 </mat-card>

@@ -1,18 +1,32 @@
-import { Component, OnInit, Input } from '@angular/core'
-import { Client } from 'src/app/interfaces/Client'
+import { Component, OnInit, Input, OnDestroy } from '@angular/core'
+import { Subscription } from 'rxjs'
+import { Client } from '../../interfaces/Client'
+import { ClientService } from '../../services/ClientService'
 
 @Component({
   selector: 'client-list',
   templateUrl: './client-list.component.html',
   styleUrls: ['./client-list.component.css']
 })
-export class ClientListComponent implements OnInit {
+export class ClientListComponent implements OnInit, OnDestroy {
 
-  @Input() clients: Array<Client> = []
+  clients: Array<Client> = []
 
-  constructor() { }
+  private clientSubscription: Subscription
+
+  constructor (public clientService: ClientService) { }
 
   ngOnInit(): void {
+    this.clients = this.clientService.getClients()
+    this.clientSubscription = this.clientService
+      .getClientsListObservable()
+      .subscribe((clients: Array<Client>) => {
+        this.clients = clients
+      })
+  }
+
+  ngOnDestroy(): void {
+    this.clientSubscription.unsubscribe()
   }
 
 }
