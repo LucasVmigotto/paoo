@@ -4,7 +4,8 @@ import {
   EventEmitter,
   Output
 } from '@angular/core'
-import { Book } from '../../interfaces/Book'
+import { NgForm } from '@angular/forms'
+import { BookService } from '../../services/BookService'
 
 @Component({
   selector: 'book-insert',
@@ -13,26 +14,21 @@ import { Book } from '../../interfaces/Book'
 })
 export class BookInsertComponent implements OnInit {
 
-  book: Book = {
-    title: '',
-    author: '',
-    pages: null
-  }
-
-  @Output() bookAdded = new EventEmitter<Book>()
-
-  constructor() { }
+  constructor(public bookService: BookService) { }
 
   ngOnInit(): void {
   }
 
-  addBook () {
-    this.bookAdded.emit(this.book)
-    this.book = {
-      title: '',
-      author: '',
-      pages: null
+  addBook (book: NgForm) {
+    if (book.invalid) {
+      return
     }
+    this.bookService.addBook(
+      book.value.title,
+      book.value.author,
+      book.value.pages
+    )
+    book.resetForm()
   }
 
 }
