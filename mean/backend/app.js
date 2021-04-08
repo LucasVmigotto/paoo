@@ -1,20 +1,11 @@
 const app = require('express')()
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
+const Client = require('./models/Client')
 
-const clients = [
-  {
-    id: 1,
-    name: 'John Doe',
-    phone: '99999999',
-    email: 'john@mail.com'
-  },
-  {
-    id: 2,
-    name: 'Mary',
-    phone: '99999999',
-    email: 'Mary@mail.com'
-  }
-]
+mongoose.connect(process.env.MONGOOSE_CONNECTION_STRING)
+  .then(() => console.log('Mongoose connected'))
+  .catch(() => console.error('Mongoose can\'t be connected'))
 
 app.use(bodyParser.json())
 
@@ -32,20 +23,23 @@ app.use((req, res, next) => {
 })
 
 app.post('/api/clients', (req, res) => {
-  const client = {
-    id: clients[clients.length - 1].id + 1,
+  const client = new Client({
     ...req.body
-  }
-  clients.push(client)
+  })
+  client.save()
   res
     .status(201)
     .json(client)
 })
 
 app.get('/api/clients', (_, res) => {
-  res
-    .status(200)
-    .json(clients)
+  Client
+    .find()
+    .then(doc => {
+      res
+        .status(200)
+        .json(doc)
+    })
 })
 
 module.exports = app
