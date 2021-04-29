@@ -33,4 +33,14 @@ export class BookService {
   getBooksListObservable () {
     return this.bookListUpdate.asObservable()
   }
+
+  removeBook (bookId) {
+    this.httpBook
+      .delete(`http://localhost:3001/api/books/${bookId}`)
+      .subscribe(() => {
+        this.books = this.books
+          .filter(el => el.bookId !== bookId)
+        this.bookListUpdate.next([...this.books])
+      })
+  }
 }

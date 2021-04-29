@@ -28,4 +28,8 @@ export class BookListComponent implements OnInit, OnDestroy {
     this.booksSubscription.unsubscribe()
   }
 
+  onDelete (bookId) {
+    this.bookService.removeBook(bookId)
+  }
+
 }

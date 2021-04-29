@@ -9,7 +9,10 @@
             <button mat-button color="primary">
                 EDIT
             </button>
-            <button mat-button color="warn">
+            <button
+                mat-button color="warn"
+                (click)="onDelete(book.bookId)"
+            >
                 REMOVE
             </button>
         </mat-action-row>
