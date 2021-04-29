@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core'
 import { Client } from '../interfaces/Client'
 import { Subject } from 'rxjs'
 import { HttpClient } from '@angular/common/http'
+import { map } from 'rxjs/operators'
 @Injectable({ providedIn: 'root' })
 export class ClientService {
   private clients: Array<Client> = []
@@ -16,7 +17,6 @@ export class ClientService {
         { name, email, phone }
       )
         .subscribe(data => {
-          console.log(data)
           this.clients.push(data)
           this.clientListUpdate.next([...this.clients])
         })
@@ -32,5 +32,15 @@ export class ClientService {
 
   getClientsListObservable () {
     return this.clientListUpdate.asObservable()
+  }
+
+  removeClient (clientId) {
+    this.httpClient
+      .delete(`http://localhost:3001/api/clients/${clientId}`)
+      .subscribe(() => {
+        this.clients = this.clients
+          .filter(el => el.clientId !== clientId)
+        this.clientListUpdate.next([...this.clients])
+      })
   }
 }

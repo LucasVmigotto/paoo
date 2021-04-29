@@ -29,4 +29,8 @@ export class ClientListComponent implements OnInit, OnDestroy {
     this.clientSubscription.unsubscribe()
   }
 
+  onDelete (clientId) {
+    this.clientService.removeClient(clientId)
+  }
+
 }
