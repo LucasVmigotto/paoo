@@ -22,6 +22,26 @@ export class BookService {
         })
   }
 
+  updateBook (bookId: String, title: String, author: String, pages: Number) {
+    this.httpBook
+      .put(`http://localhost:3001/api/books/${bookId}`, {
+        bookId, title, author, pages
+      })
+      .subscribe(res => {
+        const copy = [...this.books]
+        copy[copy.findIndex(el => el.bookId === bookId)] = {
+          bookId, title, author, pages
+        }
+        this.books = [...copy]
+        this.bookListUpdate.next([...this.books])
+      })
+  }
+
+  getBook (bookId: String) {
+    return this.httpBook
+      .get<Book>(`http://localhost:3001/api/books/${bookId}`)
+  }
+
   getBooks (): void {
     this.httpBook.get<Array<Book>>('http://localhost:3001/api/books')
       .subscribe(data => {

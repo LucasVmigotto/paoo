@@ -6,7 +6,11 @@
         <p>Phone: {{ book.author }}</p>
         <p>Email: {{ book.pages }}</p>
         <mat-action-row>
-            <button mat-button color="primary">
+            <button
+                color="primary"
+                [routerLink]="['edit', book.bookId]"
+                mat-button
+            >
                 EDIT
             </button>
             <button

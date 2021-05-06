@@ -27,6 +27,20 @@ app.post('/api/books', (req, res) => {
     })
 })
 
+app.put('/api/books/:bookId', (req, res) => {
+  const book = new Book({
+    _id: req.params.bookId,
+    title: req.body.title,
+    author: req.body.author,
+    pages: req.body.pages
+  })
+  Book.updateOne({ _id: req.params.bookId }, book)
+    .then(response => {
+      res.status(200)
+        .json({ message: 'Book Successfully updated' })
+    })
+})
+
 app.get('/api/books', (_, res) => {
   Book
     .find()
@@ -39,6 +53,19 @@ app.get('/api/books', (_, res) => {
           author: el.author,
           pages: el.pages
         })))
+    })
+})
+
+app.get('/api/books/:bookId', (req, res) => {
+  Book.findById(req.params.bookId)
+    .then(book => {
+      if (book) {
+        res.status(200)
+          .json(book)
+      } else {
+        res.status(404)
+          .json({ message: 'Book not found' })
+      }
     })
 })
 

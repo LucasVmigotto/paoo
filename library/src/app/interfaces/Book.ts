@@ -1,5 +1,5 @@
 export interface Book {
-  bookId?: Number
+  bookId?: String
   title: String
   author?: String
   pages?: Number
