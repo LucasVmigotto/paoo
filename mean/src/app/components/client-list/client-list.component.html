@@ -6,7 +6,11 @@
         <p>Phone: {{ client.phone }}</p>
         <p>Email: {{ client.email }}</p>
         <mat-action-row>
-            <button mat-button color="primary">
+            <button
+                color="primary"
+                [routerLink]="['edit', client.clientId]"
+                mat-button
+            >
                 EDIT
             </button>
             <button

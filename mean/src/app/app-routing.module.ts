@@ -11,6 +11,10 @@ const routes: Routes = [
   {
     path: 'create',
     component: ClientInsertComponent
+  },
+  {
+    path: 'edit/:clientId',
+    component: ClientInsertComponent
   }
 ]
 

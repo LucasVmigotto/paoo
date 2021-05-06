@@ -22,6 +22,26 @@ export class ClientService {
         })
   }
 
+  updateClient (clientId: String, name: String, phone: String, email: String) {
+    this.httpClient
+      .put(`http://localhost:3001/api/clients/${clientId}`, {
+        clientId, name, phone, email
+      })
+      .subscribe(res => {
+        const copy = [...this.clients]
+        copy[copy.findIndex(el => el.clientId === clientId)] = {
+          clientId, name, phone, email
+        }
+        this.clients = [...copy]
+        this.clientListUpdate.next([...this.clients])
+      })
+  }
+
+  getClient (clientId: String) {
+    return this.httpClient
+      .get<Client>(`http://localhost:3001/api/clients/${clientId}`)
+  }
+
   getClients (): void {
     this.httpClient.get<Array<Client>>('http://localhost:3001/api/clients')
       .subscribe(data => {

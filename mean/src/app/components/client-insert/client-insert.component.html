@@ -1,6 +1,6 @@
 <mat-card>
     <form
-        (submit)="onAddClient(clientForm)"
+        (submit)="onSubmit(clientForm)"
         #clientForm="ngForm"
     >
         <mat-form-field>
@@ -12,7 +12,7 @@
                 min="4"
                 required
                 matInput
-                ngModel
+                [ngModel]="client?.name"
                 #name="ngModel"
             />
         </mat-form-field>
@@ -27,7 +27,7 @@
                 placeholder="9999-9999"
                 required
                 matInput
-                ngModel
+                [ngModel]="client?.phone"
                 #phone="ngModel"
             />
         </mat-form-field>
@@ -42,7 +42,7 @@
                 placeholder="email@email.com"
                 required
                 matInput
-                ngModel
+                [ngModel]="client?.email"
                 #email="ngModel"
             />
         </mat-form-field>
@@ -50,10 +50,10 @@
             Insert a valid email address
         </mat-error>
         <button
-            color="primary"
+            color="accent"
             mat-raised-button
         >
-            Insert Client
+            Save Client
         </button>
     </form>
 </mat-card>

@@ -17,7 +17,7 @@ app.use((req, res, next) => {
   )
   res.setHeader(
     'Access-Control-Allow-Methods',
-    'GET, POST, PATCH, DELETE, OPTIONS'
+    'GET, POST, PUT, PATCH, DELETE, OPTIONS'
   )
   next()
 })
@@ -38,6 +38,21 @@ app.post('/api/clients', (req, res) => {
     })
 })
 
+app.put('/api/clients/:clientId', (req, res) => {
+  const client = new Client({
+    _id: req.params.clientId,
+    name: req.body.name,
+    phone: req.body.phone,
+    email: req.body.email
+  })
+  Client.updateOne({ _id: req.params.clientId }, client)
+    .then(response => {
+      console.log(response)
+      res.status(200)
+        .json({ message: 'Client Successfully updated' })
+    })
+})
+
 app.get('/api/clients', (_, res) => {
   Client
     .find()
@@ -50,6 +65,19 @@ app.get('/api/clients', (_, res) => {
           email: el.email,
           phone: el.phone,
         })))
+    })
+})
+
+app.get('/api/clients/:clientId', (req, res) => {
+  Client.findById(req.params.clientId)
+    .then(client => {
+      if (client) {
+        res.status(200)
+          .json(client)
+      } else {
+        res.status(404)
+          .json({ message: 'Client not found' })
+      }
     })
 })
 
