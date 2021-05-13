@@ -1,11 +1,39 @@
 const { Router } = require('express')
+const multer = require('multer')
 const Client = require('../models/Client')
+
+const MIME_TYPE_EXT_MAP = {
+  'image/png': 'png',
+  'image/jpeg': 'jpg',
+  'image/jpg': 'jpg',
+  'image/bmp': 'bmp'
+}
+
+const storage = multer.diskStorage({
+  destination: (_req, file, callback) =>
+    callback(
+      MIME_TYPE_EXT_MAP[file.mimetype]
+        ? null
+        : new Error('Invalid Mime Type'),
+      'backend/images'
+    ),
+  filename: (req, file, callback) => {
+    const name = file.originalname
+      .toLowerCase()
+      .split(' ')
+      .join('-')
+    const ext = MIME_TYPE_EXT_MAP[file.mimetype]
+    callback(null, `${name}-${Date.now()}.${ext}`)
+  }
+})
 
 const router = Router()
 
-router.post('', (req, res) => {
+router.post('', multer({ storage }).single('image') , (req, res) => {
+  const imageURL= `${req.protocol}://${req.get('host')}`
   const client = new Client({
-    ...req.body
+    ...req.body,
+    imageURL: `${imageURL}/images/${req.file.filename}`
   })
   client.save()
     .then(client => {
@@ -14,7 +42,8 @@ router.post('', (req, res) => {
           clientId: client._id,
           name: client.name,
           phone: client.phone,
-          email: client.email
+          email: client.email,
+          imageURL: client.imageURL
         })
     })
 })

@@ -4,6 +4,12 @@
         <mat-expansion-panel-header>
             Name: {{ client.name }}
         </mat-expansion-panel-header>
+        <div class="client-image">
+            <img
+                [src]="client.imageURL"
+                [alt]="client.name"
+            />
+        </div>
         <p>Phone: {{ client.phone }}</p>
         <p>Email: {{ client.email }}</p>
         <mat-action-row>

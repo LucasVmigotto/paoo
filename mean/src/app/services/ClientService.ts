@@ -10,14 +10,26 @@ export class ClientService {
 
   constructor (private httpClient: HttpClient, private router: Router) {}
 
-  addClient (name, email, phone): void {
+  addClient (name, email, phone, image: File): void {
+    const form = new FormData()
+    form.append('name', name)
+    form.append('email', email)
+    form.append('phone', phone)
+    form.append('image', image)
     this.httpClient
       .post<Client>(
         'http://localhost:3001/api/clients',
-        { name, email, phone }
+        form
       )
         .subscribe(data => {
-          this.clients.push(data)
+          const client: Client = {
+            clientId: data.clientId,
+            name,
+            email,
+            phone,
+            imageURL: data.imageURL
+          }
+          this.clients.push(client)
           this.clientListUpdate.next([...this.clients])
           this.router.navigate(['/'])
         })
@@ -26,12 +38,12 @@ export class ClientService {
   updateClient (clientId: String, name: String, phone: String, email: String) {
     this.httpClient
       .put(`http://localhost:3001/api/clients/${clientId}`, {
-        clientId, name, phone, email
+        clientId, name, phone, email, imageURL: null
       })
       .subscribe(res => {
         const copy = [...this.clients]
         copy[copy.findIndex(el => el.clientId === clientId)] = {
-          clientId, name, phone, email
+          clientId, name, phone, email, imageURL: null
         }
         this.clients = [...copy]
         this.clientListUpdate.next([...this.clients])
