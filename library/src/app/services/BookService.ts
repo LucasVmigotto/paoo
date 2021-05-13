@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core'
 import { Book } from '../interfaces/Book'
 import { Subject } from 'rxjs'
 import { HttpClient } from '@angular/common/http'
+import { Router } from '@angular/router'
 
 @Injectable({ providedIn: 'root' })
 export class BookService {
   private books: Array<Book> = []
   private bookListUpdate = new Subject<Array<Book>>()
 
-  constructor (private httpBook: HttpClient) {}
+  constructor (private httpBook: HttpClient, private router: Router) {}
 
   addBook (title, author, pages): void {
     this.httpBook
@@ -19,6 +20,7 @@ export class BookService {
         .subscribe(data => {
           this.books.push(data),
           this.bookListUpdate.next([...this.books])
+          this.router.navigate(['/'])
         })
   }
 
@@ -34,6 +36,7 @@ export class BookService {
         }
         this.books = [...copy]
         this.bookListUpdate.next([...this.books])
+        this.router.navigate(['/'])
       })
   }
 

@@ -12,15 +12,18 @@ export class BookListComponent implements OnInit, OnDestroy {
 
   books: Array<Book> = []
   private booksSubscription: Subscription
+  public isLoading: boolean = false
 
   constructor(public bookService: BookService) { }
 
   ngOnInit(): void {
+    this.isLoading = true
     this.bookService.getBooks()
     this.booksSubscription = this.bookService
       .getBooksListObservable()
       .subscribe((books: Array<Book>) => {
         this.books = books
+        this.isLoading = false
       })
   }
 
