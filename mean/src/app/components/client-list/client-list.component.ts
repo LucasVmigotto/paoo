@@ -11,17 +11,19 @@ import { ClientService } from '../../services/ClientService'
 export class ClientListComponent implements OnInit, OnDestroy {
 
   clients: Array<Client> = []
-
   private clientSubscription: Subscription
+  public isLoading: boolean = false
 
   constructor (public clientService: ClientService) { }
 
   ngOnInit(): void {
+    this.isLoading = true
     this.clientService.getClients()
     this.clientSubscription = this.clientService
       .getClientsListObservable()
       .subscribe((clients: Array<Client>) => {
         this.clients = clients
+        this.isLoading = false
       })
   }
 

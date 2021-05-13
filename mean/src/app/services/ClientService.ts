@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core'
 import { Client } from '../interfaces/Client'
 import { Subject } from 'rxjs'
 import { HttpClient } from '@angular/common/http'
-import { map } from 'rxjs/operators'
+import { Router } from '@angular/router'
 @Injectable({ providedIn: 'root' })
 export class ClientService {
   private clients: Array<Client> = []
   private clientListUpdate = new Subject<Array<Client>>()
 
-  constructor (private httpClient: HttpClient) {}
+  constructor (private httpClient: HttpClient, private router: Router) {}
 
   addClient (name, email, phone): void {
     this.httpClient
@@ -19,6 +19,7 @@ export class ClientService {
         .subscribe(data => {
           this.clients.push(data)
           this.clientListUpdate.next([...this.clients])
+          this.router.navigate(['/'])
         })
   }
 
@@ -34,6 +35,7 @@ export class ClientService {
         }
         this.clients = [...copy]
         this.clientListUpdate.next([...this.clients])
+        this.router.navigate(['/'])
       })
   }
 
