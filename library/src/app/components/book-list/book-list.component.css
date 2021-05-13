@@ -5,3 +5,11 @@
 mat-spinner {
     margin: auto;
 }
+.book-image {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.book-image > img {
+    max-width: 50%;
+}

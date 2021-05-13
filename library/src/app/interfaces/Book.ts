@@ -2,5 +2,6 @@ export interface Book {
   bookId?: String
   title: String
   author?: String
-  pages?: Number
+  pages?: Number,
+  imageURL: String
 }

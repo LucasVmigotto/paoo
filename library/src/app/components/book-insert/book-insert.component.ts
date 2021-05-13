@@ -3,7 +3,6 @@ import {
   OnInit
 } from '@angular/core'
 import {
-  NgForm,
   FormGroup,
   FormControl,
   Validators
@@ -11,7 +10,7 @@ import {
 import { ActivatedRoute, ParamMap } from '@angular/router'
 import { Book } from 'src/app/interfaces/Book'
 import { BookService } from '../../services/BookService'
-
+import { mimeTypeValidator } from './mime-type.validator'
 @Component({
   selector: 'book-insert',
   templateUrl: './book-insert.component.html',
@@ -19,11 +18,12 @@ import { BookService } from '../../services/BookService'
 })
 export class BookInsertComponent implements OnInit {
 
-  form: FormGroup
+  public form: FormGroup
   private mode: string = 'create'
   private bookId: string
   public book: Book
   public isLoading: boolean = false
+  public previewImage: string
 
   constructor(
     public bookService: BookService,
@@ -34,6 +34,10 @@ export class BookInsertComponent implements OnInit {
     this.form = new FormGroup({
       title: new FormControl(null, {
         validators: [Validators.required, Validators.minLength(3)]
+      }),
+      image: new FormControl(null, {
+        validators: [Validators.required],
+        asyncValidators: [mimeTypeValidator]
       }),
       author: new FormControl(null, {
         validators: [Validators.required, Validators.minLength(3)]
@@ -54,7 +58,8 @@ export class BookInsertComponent implements OnInit {
               this.form.setValue({
                 title: this.book.title,
                 author: this.book.author,
-                pages: this.book.pages
+                pages: this.book.pages,
+                imageURL: null
               })
             })
         } else {
@@ -74,7 +79,8 @@ export class BookInsertComponent implements OnInit {
       this.bookService.addBook(
         this.form.value.title,
         this.form.value.author,
-        this.form.value.pages
+        this.form.value.pages,
+        this.form.value.image
       )
     } else {
       this.bookService.updateBook(
@@ -85,6 +91,17 @@ export class BookInsertComponent implements OnInit {
       )
     }
     this.form.reset()
+  }
+
+  onImageSelected (event: Event) {
+    const file = (event.target as HTMLInputElement).files[0]
+    this.form.patchValue({ image: file })
+    this.form.get('image').updateValueAndValidity()
+    const reader = new FileReader()
+    reader.onload = () => {
+      this.previewImage = reader.result as string
+    }
+    reader.readAsDataURL(file)
   }
 
 }

@@ -18,6 +18,27 @@
         <mat-error *ngIf="form.get('title').invalid">
             Please, insert a valid title name
         </mat-error>
+        <div>
+            <button
+                type="button"
+                mat-stroked-button
+                (click)="selectFile.click()"
+            >
+                Select an Image
+            </button>
+            <input
+                type="file"
+                #selectFile
+                (change)="onImageSelected($event)"
+            />
+        </div>
+        <div class="image-preview">
+            <img
+                *ngIf="previewImage && previewImage !== '' && form.get('image').valid"
+                [src]="previewImage"
+                [alt]="form.value.title"
+            />
+        </div>
         <mat-form-field>
             <input
                 id="author"

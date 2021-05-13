@@ -4,6 +4,12 @@
         <mat-expansion-panel-header>
             Name: {{ book.title }}
         </mat-expansion-panel-header>
+        <div class="book-image">
+            <img
+                [src]="book.imageURL"
+                [alt]="boom.title"
+            />
+        </div>
         <p>Phone: {{ book.author }}</p>
         <p>Pages: {{ book.pages }}</p>
         <mat-action-row>

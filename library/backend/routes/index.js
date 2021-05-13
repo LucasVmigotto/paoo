@@ -1,11 +1,39 @@
 const { Router } = require('express')
+const multer = require('multer')
 const Book = require('../models/Book')
+
+const MIME_TYPE_EXT_MAP = {
+  'image/png': 'png',
+  'image/jpeg': 'jpg',
+  'image/jpg': 'jpg',
+  'image/bmp': 'bmp'
+}
+
+const storage = multer.diskStorage({
+  destination: (_req, file, callback) =>
+    callback(
+      MIME_TYPE_EXT_MAP[file.mimetype]
+        ? null
+        : new Error('Invalid Mime Type'),
+      'backend/images'
+    ),
+  filename: (req, file, callback) => {
+    const name = file.originalname
+      .toLowerCase()
+      .split(' ')
+      .join('-')
+    const ext = MIME_TYPE_EXT_MAP[file.mimetype]
+    callback(null, `${name}-${Date.now()}.${ext}`)
+  }
+})
 
 const router = Router()
 
-router.post('', (req, res) => {
+router.post('', multer({ storage }).single('image'), (req, res) => {
+  const imageURL= `${req.protocol}://${req.get('host')}`
   const book = new Book({
-    ...req.body
+    ...req.body,
+    imageURL: `${imageURL}/images/${req.file.filename}`
   })
   book.save()
     .then(book => {
@@ -14,7 +42,8 @@ router.post('', (req, res) => {
           bookId: book._id,
           title: book.title,
           author: book.author,
-          pages: book.pages
+          pages: book.pages,
+          imageURL: book.imageURL
         })
     })
 })
@@ -43,7 +72,8 @@ router.get('', (_, res) => {
           bookId: el._id,
           title: el.title,
           author: el.author,
-          pages: el.pages
+          pages: el.pages,
+          imageURL: el.imageURL
         })))
     })
 })
