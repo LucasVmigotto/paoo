@@ -35,11 +35,32 @@ export class ClientService {
         })
   }
 
-  updateClient (clientId: String, name: String, phone: String, email: String) {
+  updateClient (
+    clientId: string,
+    name: string,
+    phone: string,
+    email: string,
+    image: File | string
+  ) {
+    let client: Client | FormData
+    if (typeof image === 'object') {
+      client = new FormData()
+      client.append('clientId', clientId)
+      client.append('name', name)
+      client.append('phone', phone)
+      client.append('email', email)
+      client.append('image', image, name)
+    } else {
+      client = {
+        clientId,
+        name,
+        phone,
+        email,
+        imageURL: image
+      }
+    }
     this.httpClient
-      .put(`http://localhost:3001/api/clients/${clientId}`, {
-        clientId, name, phone, email, imageURL: null
-      })
+      .put(`http://localhost:3001/api/clients/${clientId}`, client)
       .subscribe(res => {
         const copy = [...this.clients]
         copy[copy.findIndex(el => el.clientId === clientId)] = {

@@ -10,9 +10,12 @@ import { ClientService } from '../../services/ClientService'
 })
 export class ClientListComponent implements OnInit, OnDestroy {
 
-  clients: Array<Client> = []
+  public clients: Array<Client> = []
   private clientSubscription: Subscription
   public isLoading: boolean = false
+  public qtyClients: number = 10
+  public qtyClientsPerPage: number = 2
+  public qtyClientsPerPageOptions: Array<Number> = [2, 5, 10]
 
   constructor (public clientService: ClientService) { }
 

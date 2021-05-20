@@ -48,12 +48,16 @@ router.post('', multer({ storage }).single('image') , (req, res) => {
     })
 })
 
-router.put('/:clientId', (req, res) => {
+router.put('/:clientId', multer({ storage }).single('image'), (req, res) => {
+  const imageUrl = req.file
+    ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    : req.body.imageUrl
   const client = new Client({
     _id: req.params.clientId,
     name: req.body.name,
     phone: req.body.phone,
-    email: req.body.email
+    email: req.body.email,
+    imageUrl
   })
   Client.updateOne({ _id: req.params.clientId }, client)
     .then(response => {
@@ -74,6 +78,7 @@ router.get('', (_, res) => {
           name: el.name,
           email: el.email,
           phone: el.phone,
+          imageURL: el.imageURL
         })))
     })
 })

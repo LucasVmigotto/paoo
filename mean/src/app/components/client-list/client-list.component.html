@@ -29,6 +29,10 @@
         </mat-action-row>
     </mat-expansion-panel>
 </mat-accordion>
+<mat-paginator
+    [length]="qtyClients"
+    [pageSize]="qtyClientsPerPage"
+></mat-paginator>
 <p
     *ngIf="clients.length<=0 && !isLoading"
     class="mat-body-1"

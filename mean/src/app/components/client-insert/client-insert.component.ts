@@ -59,7 +59,7 @@ export class ClientInsertComponent implements OnInit {
                 name: this.client.name,
                 phone: this.client.phone,
                 email: this.client.email,
-                imageURL: null
+                image: this.client.imageURL
               })
             })
         } else {
@@ -81,7 +81,8 @@ export class ClientInsertComponent implements OnInit {
         this.clientId,
         this.form.value.name,
         this.form.value.email,
-        this.form.value.phone
+        this.form.value.phone,
+        this.form.value.image
       )
     } else {
       console.log({ ...this.form.value })
