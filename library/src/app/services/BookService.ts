@@ -36,11 +36,32 @@ export class BookService {
         })
   }
 
-  updateBook (bookId: String, title: String, author: String, pages: Number) {
+  updateBook (
+    bookId: string,
+    title: string,
+    author: string,
+    pages: Number,
+    image: File | string,
+  ) {
+    let book: Book | FormData
+    if (typeof image === 'object') {
+      book = new FormData()
+      book.append('bookId', bookId)
+      book.append('title', title)
+      book.append('author', author)
+      book.append('pages', `${pages}`)
+      book.append('image', image, title)
+    } else {
+      book = {
+        bookId,
+        title,
+        author,
+        pages,
+        imageURL: image
+      }
+    }
     this.httpBook
-      .put(`http://localhost:3001/api/books/${bookId}`, {
-        bookId, title, author, pages, imageURL: null
-      })
+      .put(`http://localhost:3001/api/books/${bookId}`, book)
       .subscribe(res => {
         const copy = [...this.books]
         copy[copy.findIndex(el => el.bookId === bookId)] = {

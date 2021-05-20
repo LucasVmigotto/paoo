@@ -59,7 +59,7 @@ export class BookInsertComponent implements OnInit {
                 title: this.book.title,
                 author: this.book.author,
                 pages: this.book.pages,
-                imageURL: null
+                image: this.book.imageURL
               })
             })
         } else {
@@ -87,7 +87,8 @@ export class BookInsertComponent implements OnInit {
         this.bookId,
         this.form.value.title,
         this.form.value.author,
-        this.form.value.pages
+        this.form.value.pages,
+        this.form.value.image
       )
     }
     this.form.reset()

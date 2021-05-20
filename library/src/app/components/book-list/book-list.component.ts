@@ -10,9 +10,12 @@ import { Subscription, Observable } from 'rxjs'
 })
 export class BookListComponent implements OnInit, OnDestroy {
 
-  books: Array<Book> = []
+  public books: Array<Book> = []
   private booksSubscription: Subscription
   public isLoading: boolean = false
+  public qtyBooks: number = 10
+  public qtyBooksPerPage: number = 2
+  public qtyBooksPerPageOptions: Array<Number> = [2, 5, 10]
 
   constructor(public bookService: BookService) { }
 

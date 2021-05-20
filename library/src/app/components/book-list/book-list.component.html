@@ -7,7 +7,7 @@
         <div class="book-image">
             <img
                 [src]="book.imageURL"
-                [alt]="boom.title"
+                [alt]="book.title"
             />
         </div>
         <p>Phone: {{ book.author }}</p>
@@ -29,6 +29,10 @@
         </mat-action-row>
     </mat-expansion-panel>
 </mat-accordion>
+<mat-paginator
+    [length]="qtyBooks"
+    [pageSize]="qtyBooksPerPage"
+></mat-paginator>
 <p
     *ngIf="books.length <= 0 && !isLoading"
     class="mat-body-1"

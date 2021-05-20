@@ -48,12 +48,16 @@ router.post('', multer({ storage }).single('image'), (req, res) => {
     })
 })
 
-router.put('/:bookId', (req, res) => {
+router.put('/:bookId', multer({ storage }).single('image'), (req, res) => {
+  const imageUrl = req.file
+    ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    : req.body.imageUrl
   const book = new Book({
     _id: req.params.bookId,
     title: req.body.title,
     author: req.body.author,
-    pages: req.body.pages
+    pages: req.body.pages,
+    imageUrl
   })
   Book.updateOne({ _id: req.params.bookId }, book)
     .then(response => {
